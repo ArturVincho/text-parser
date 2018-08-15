@@ -1,9 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Text parser</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-</head>
 <body>
 <style>
     @import url('https://fonts.googleapis.com/css?family=Open+Sans');
@@ -83,9 +79,22 @@
         <input type="submit" value="Проверить корректность растоновки скобок" class="button" onclick="analyze()"/>
     </form>
 </div>
+=======
+
+<h1>Анализатор текста</h1>
+
+<form method="POST" name="form" action="/upload" enctype="multipart/form-data">
+    <input type="file" name="file" id="filePath"/><br/><br/>
+    <input type="submit" value="Анализировать текст" id="text" onclick="text()"/>
+    <input type="submit" value="Проверить корректность растоновки скобок" onclick="analyze()"/>
+</form>
+<!--<form method="POST" action="/analyze" enctype="multipart/form-data">-->
+    <!--<input type="file" id="filePathAnalyze"/>-->
+    <!--<input type="submit" value="Проверить корректность растоновки скобок"/>-->
+<!--</form>-->
 <script>
     function text(){
-        document.form.action = "/upload";
+       document.form.action = "/upload";
     }
     function analyze() {
         document.form.action = "/analyze";
