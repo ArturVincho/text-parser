@@ -11,9 +11,7 @@ import java.nio.charset.StandardCharsets;
 @Component
 public class ReadingFile {
 
-
     private String fileContent;
-
 
 
     public String readFile(String filename) {
@@ -30,6 +28,7 @@ public class ReadingFile {
         fileContent.replaceAll("null", "").replace("\n", " ");
         return fileContent;
     }
+
 }
 
 

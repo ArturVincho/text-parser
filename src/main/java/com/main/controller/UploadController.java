@@ -1,5 +1,7 @@
 package com.main.controller;
 
+import com.main.anaylzer.BracketsAnalyzer;
+import com.main.anaylzer.WordsAnalyzer;
 import com.main.reader.ReadingFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,10 @@ public class UploadController {
 
     @Autowired
     private ReadingFile readingFile;
+    @Autowired
+    private WordsAnalyzer wordsAnalyzer;
+    @Autowired
+    private BracketsAnalyzer bracketsAnalyzer;
     //Save the uploaded file to this folder
     private static String UPLOADED_FOLDER = "";
 
@@ -37,9 +43,9 @@ public class UploadController {
             Path path = getPath(file);
             String newFile = new String(path.toString().getBytes(), "UTF-8");
             String readFile = readingFile.readFile(newFile);
-            String someWrite = readingFile.someWrite(readFile);
+            String someWrite = wordsAnalyzer.someWrite(readFile);
             redirectAttributes.addFlashAttribute("message",
-                    "Ваш файл проанализирован. " + "Имя вашего файла: " + file.getOriginalFilename());
+                    "Ваш файл загружен и проанализирован. " + "Название вашего файла: " + file.getOriginalFilename());
             redirectAttributes.addFlashAttribute("messageText", "В вашем файле " + someWrite);
         } catch (IOException e) {
             e.printStackTrace();
@@ -62,7 +68,7 @@ public class UploadController {
         try {
             Path path = getPath(file);
             String readFile = readingFile.readFile(path.toFile().toString());
-            String analyze = readingFile.checkString(readFile);
+            String analyze = bracketsAnalyzer.checkString(readFile);
             redirectAttributes.addFlashAttribute("message",
                     "Ваш файл загружен и проанализирован. " + "Название вашего файла: " + file.getOriginalFilename());
             redirectAttributes.addFlashAttribute("messageAnalyze", "Расстановка скобок в файле: " + analyze);
@@ -89,7 +95,7 @@ public class UploadController {
      */
     private boolean fileNotFound(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
         if (file.isEmpty()) {
-            redirectAttributes.addFlashAttribute("message", "Пожалуйста, выберите файл и попробуйте еще раз");
+            redirectAttributes.addFlashAttribute("message", "Пожалуйста выберите файл, после чего нажмите кнопку: анализировать");
             return true;
         }
         return false;
