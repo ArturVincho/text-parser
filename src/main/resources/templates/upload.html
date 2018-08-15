@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<h1>Анализатор текста</h1>
+
+<form method="POST" name="form" action="/upload" enctype="multipart/form-data">
+    <input type="file" name="file" id="filePath"/><br/><br/>
+    <input type="submit" value="Анализировать текст" id="text" onclick="text()"/>
+    <input type="submit" value="Проверить корректность растоновки скобок" onclick="analyze()"/>
+</form>
+<!--<form method="POST" action="/analyze" enctype="multipart/form-data">-->
+    <!--<input type="file" id="filePathAnalyze"/>-->
+    <!--<input type="submit" value="Проверить корректность растоновки скобок"/>-->
+<!--</form>-->
+<script>
+    function text(){
+       document.form.action = "/upload";
+    }
+    function analyze() {
+        document.form.action = "/analyze";
+    }
+</script>
+</body>
+</html>
