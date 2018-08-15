@@ -78,7 +78,7 @@ public class ReadingFile {
         List<Integer> topTenDuplicates = mapKeys.stream().limit(10).collect(Collectors.toList());
         List<String> finalWords = addDuplicateWords(duplicatesWord, topTenDuplicates);
         for (String word : finalWords) {
-            this.finalDuplicate = String.join(", ", this.finalDuplicate, word);
+            finalDuplicate = String.join(", ", this.finalDuplicate, word);
         }
         return " 10 самых повторяющихся слов: " + finalDuplicate.replaceAll("null,", "");
     }
