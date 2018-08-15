@@ -39,7 +39,7 @@ public class UploadController {
             String readFile = readingFile.readFile(newFile);
             String someWrite = readingFile.someWrite(readFile);
             redirectAttributes.addFlashAttribute("message",
-                    "Ваш файл загружен и проанализирован. " + "Название вашего файла: " + file.getOriginalFilename());
+                    "Ваш файл проанализирован. " + "Имя вашего файла: " + file.getOriginalFilename());
             redirectAttributes.addFlashAttribute("messageText", "В вашем файле " + someWrite);
         } catch (IOException e) {
             e.printStackTrace();
@@ -89,7 +89,7 @@ public class UploadController {
      */
     private boolean fileNotFound(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
         if (file.isEmpty()) {
-            redirectAttributes.addFlashAttribute("message", "Пожалуйста выберите файл, после чего нажмите кнопку: анализировать");
+            redirectAttributes.addFlashAttribute("message", "Пожалуйста, выберите файл и попробуйте еще раз");
             return true;
         }
         return false;

@@ -59,7 +59,7 @@ public class ReadingFile {
                 }
             }
         }
-        return stack.isEmpty() ? "Расстаовка скобок верна" : "Расстаовка скобок не верна";
+        return stack.isEmpty() ? "расстаовка скобок верна." : "расстаовка скобок не верна.";
     }
 
 
