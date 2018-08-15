@@ -21,18 +21,47 @@ public class WordsAnalyzer {
         String replaceCharacter = replaceSymbol.replaceSymbol(content.toLowerCase()).replaceAll("\\pP", " ")
                 .replaceAll(" {2}", " ");
         HashMap<String, Integer> duplicatesWord = identicalWords(replaceCharacter, numberOfRepetitions);
+        filteringNonDuplicateWords(mapKeys, duplicatesWord);
+        Collections.sort(mapKeys, Collections.reverseOrder());
+        List<Integer> topTenDuplicates = mapKeys.stream().limit(10).collect(Collectors.toList());
+        List<String> finalWords = addDuplicateWords(duplicatesWord, topTenDuplicates);
+        List<String> collects = new ArrayList<>();
+        fillingDuplicateWords(finalWords, collects);
+        deleteDuplicateWords(finalWords, collects);
+        finalDuplicate = null;
+        for (String word : finalWords) {
+            finalDuplicate = String.join(" ", this.finalDuplicate, word);
+        }
+        return " 10 самых повторяющихся слов: " + finalDuplicate.replaceAll("null", "");
+    }
+
+    private void filteringNonDuplicateWords(List<Integer> mapKeys, HashMap<String, Integer> duplicatesWord) {
         for (Map.Entry<String, Integer> setMap : duplicatesWord.entrySet()) {
             if (setMap.getValue() != 1) {
                 mapKeys.add(setMap.getValue());
             }
         }
-        Collections.sort(mapKeys, Collections.reverseOrder());
-        List<Integer> topTenDuplicates = mapKeys.stream().limit(10).collect(Collectors.toList());
-        List<String> finalWords = addDuplicateWords(duplicatesWord, topTenDuplicates);
-        for (String word : finalWords) {
-            finalDuplicate = String.join(", ", this.finalDuplicate, word);
+    }
+
+    private void fillingDuplicateWords(List<String> finalWords, List<String> collects) {
+        for (String change : finalWords) {
+            String substring = change.substring(1);
+            for (int i = 0; i < finalWords.size(); i++) {
+                if (substring.equals(finalWords.get(i))) {
+                    collects.add(substring);
+                }
+            }
         }
-        return " 10 самых повторяющихся слов: " + finalDuplicate.replaceAll("null,", "");
+    }
+
+    private void deleteDuplicateWords(List<String> finalWords, List<String> collects) {
+        for (int i = 0; i<finalWords.size(); i++){
+            for (String collect : collects) {
+                if (collect.equals(finalWords.get(i))) {
+                    finalWords.remove(i);
+                }
+            }
+        }
     }
 
     private List<String> addDuplicateWords(HashMap<String, Integer> numberOfRepetitions, List<Integer> topTenDuplicates) {

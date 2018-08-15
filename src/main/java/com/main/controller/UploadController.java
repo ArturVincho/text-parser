@@ -95,7 +95,7 @@ public class UploadController {
      */
     private boolean fileNotFound(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
         if (file.isEmpty()) {
-            redirectAttributes.addFlashAttribute("message", "Пожалуйста выберите файл, после чего нажмите кнопку: анализировать");
+            redirectAttributes.addFlashAttribute("message", "Пожалуйста, выберите файл и повторите еще раз");
             return true;
         }
         return false;
