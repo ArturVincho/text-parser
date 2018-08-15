@@ -1,0 +1,23 @@
+$RECYCLE.BIN/
+ *.DS_Store
+ *.iml
+ *.ipr
+ *.iws
+ .classpath
+ .idea/**/*
+ .ls
+ .project
+ .settings/**/*
+ /*.ipr
+ *.log
+ /lib
+ Thumbs.db
+ bin/**/*
+ bower_components
+ bower_components/**/*
+ build/**/*
+ lib/**/*
+ target/
+ target/**/*
+ temp/**/*
+ .idea/

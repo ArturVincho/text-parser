@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<h1>Статус</h1>
+
+<div th:if="${message}">
+    <p th:text="${message}"/>
+</div>
+<div th:if="${messageText}">
+    <p th:text="${messageText}"/>
+</div>
+<div th:if="${messageAnalyze}">
+    <p th:text="${messageAnalyze}"/>
+</div>
+    <a href="http://localhost:8080/">Вернуться</a>
+
+
+
+</body>
+</html>
