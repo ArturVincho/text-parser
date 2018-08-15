@@ -8,8 +8,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    //https://jira.spring.io/browse/SPR-14651
-    //4.3.5 supports RedirectAttributes redirectAttributes
     @ExceptionHandler(MultipartException.class)
     public String handleError1(MultipartException e, RedirectAttributes redirectAttributes) {
 
@@ -17,12 +15,5 @@ public class GlobalExceptionHandler {
         return "redirect:/uploadStatus";
 
     }
-
-    /*@ExceptionHandler(MultipartException.class)
-    public String handleError2(MultipartException e) {
-
-        return "redirect:/errorPage";
-
-    }*/
 
 }

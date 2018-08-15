@@ -55,14 +55,13 @@ public class UploadController {
 
 
     /**
-     *
      * @param file
      * @param redirectAttributes
      * @return
      */
     @PostMapping("/analyze")
     public String bracketsAnalyzed(@RequestParam("file") MultipartFile file,
-                                   RedirectAttributes redirectAttributes){
+                                   RedirectAttributes redirectAttributes) {
 
         if (fileNotFound(file, redirectAttributes)) return "redirect:/uploadError";
         try {
@@ -85,10 +84,11 @@ public class UploadController {
 
 
     @GetMapping("/uploadError")
-    public String localhost(){return "uploadError";}
+    public String localhost() {
+        return "uploadError";
+    }
 
     /**
-     *
      * @param file
      * @param redirectAttributes
      * @return
@@ -100,13 +100,13 @@ public class UploadController {
         }
         return false;
     }
+
     private Path getPath(@RequestParam("file") MultipartFile file) throws IOException {
         byte[] bytes = file.getBytes();
         Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
         Files.write(path, bytes);
         return path;
     }
-
 
 
 }
