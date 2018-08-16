@@ -1,10 +1,12 @@
 package com.main.anaylzer;
 
 import com.main.replace.ReplaceSymbol;
+import com.sun.javafx.util.Logging;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Component
@@ -14,12 +16,26 @@ public class WordsAnalyzer {
     private ReplaceSymbol replaceSymbol;
 
     private String finalDuplicate;
+    private Logger logger = Logger.getLogger(Logging.class.getName());
 
-    public String someWrite(String content) {
+    /**
+     * Analysis of repetitive words
+     * <p>
+     * Accept a text string from the ReadingFile class.
+     * Find All the same words. Return a string with the same words
+     * </p>
+     *
+     * @param content String
+     * @return finalDuplicate String
+     */
+
+    public String analysisOfWords(String content) {
+        logger.info("Starting finding identical words");
         HashMap<String, Integer> numberOfRepetitions = new HashMap<>();
         List<Integer> mapKeys = new ArrayList<>();
         String replaceCharacter = replaceSymbol.replaceSymbol(content.toLowerCase()).replaceAll("\\pP", " ")
                 .replaceAll(" {2}", " ");
+        logger.info("All characters except words were deleted");
         HashMap<String, Integer> duplicatesWord = identicalWords(replaceCharacter, numberOfRepetitions);
         filteringNonDuplicateWords(mapKeys, duplicatesWord);
         Collections.sort(mapKeys, Collections.reverseOrder());
@@ -32,34 +48,24 @@ public class WordsAnalyzer {
         for (String word : finalWords) {
             finalDuplicate = String.join(" ", this.finalDuplicate, word);
         }
+        logger.info("Finished finding identical words");
         return " 10 самых повторяющихся слов: " + finalDuplicate.replaceAll("null", "");
+    }
+
+    // Search for the same words and their collection in Map
+    private HashMap<String, Integer> identicalWords(String replaceCharacter, HashMap<String, Integer> numberOfRepetitions) {
+        HashMap<String, Integer> duplicatesMap = new HashMap<>();
+        List<String> duplicateWordsInMap = new ArrayList<>();
+        String[] someWords = replaceCharacter.split(" ");
+        countingDuplicateWords(numberOfRepetitions, someWords);
+        addDuplicateWordsInMap(numberOfRepetitions, duplicatesMap, duplicateWordsInMap);
+        return duplicatesMap;
     }
 
     private void filteringNonDuplicateWords(List<Integer> mapKeys, HashMap<String, Integer> duplicatesWord) {
         for (Map.Entry<String, Integer> setMap : duplicatesWord.entrySet()) {
             if (setMap.getValue() != 1) {
                 mapKeys.add(setMap.getValue());
-            }
-        }
-    }
-
-    private void fillingDuplicateWords(List<String> finalWords, List<String> collects) {
-        for (String change : finalWords) {
-            String substring = change.substring(1);
-            for (int i = 0; i < finalWords.size(); i++) {
-                if (substring.equals(finalWords.get(i))) {
-                    collects.add(substring);
-                }
-            }
-        }
-    }
-
-    private void deleteDuplicateWords(List<String> finalWords, List<String> collects) {
-        for (int i = 0; i<finalWords.size(); i++){
-            for (String collect : collects) {
-                if (collect.equals(finalWords.get(i))) {
-                    finalWords.remove(i);
-                }
             }
         }
     }
@@ -84,13 +90,25 @@ public class WordsAnalyzer {
         return finalDuplicateWord;
     }
 
-    private HashMap<String, Integer> identicalWords(String replaceCharacter, HashMap<String, Integer> numberOfRepetitions) {
-        HashMap<String, Integer> duplicatesMap = new HashMap<>();
-        List<String> duplicateWordsInMap = new ArrayList<>();
-        String[] someWords = replaceCharacter.split(" ");
-        countingDuplicateWords(numberOfRepetitions, someWords);
-        addDuplicateWordsInMap(numberOfRepetitions, duplicatesMap, duplicateWordsInMap);
-        return duplicatesMap;
+    private void fillingDuplicateWords(List<String> finalWords, List<String> collects) {
+        for (String change : finalWords) {
+            String substring = change.substring(1);
+            for (int i = 0; i < finalWords.size(); i++) {
+                if (substring.equals(finalWords.get(i))) {
+                    collects.add(substring);
+                }
+            }
+        }
+    }
+
+    private void deleteDuplicateWords(List<String> finalWords, List<String> collects) {
+        for (int i = 0; i < finalWords.size(); i++) {
+            for (String collect : collects) {
+                if (collect.equals(finalWords.get(i))) {
+                    finalWords.remove(i);
+                }
+            }
+        }
     }
 
     private void countingDuplicateWords(HashMap<String, Integer> numberOfRepetitions, String[] someWords) {
@@ -99,15 +117,23 @@ public class WordsAnalyzer {
             if (numberOfRepetitions.containsKey(someWord)) {
                 key = numberOfRepetitions.get(someWord);
                 numberOfRepetitions.put(someWord, key + 1);
+
+                //Because of a possible blank line in the form of a key,
+                // it is necessary to check for the length of the string
+
             } else if (someWord.trim().length() > 0) {
                 numberOfRepetitions.put(someWord, 1);
             }
         }
     }
 
-    private void addDuplicateWordsInMap(HashMap<String, Integer> numberOfRepetitions, HashMap<String, Integer> duplicatesMap, List<String> duplicateWordsInMap) {
-        for (String setKey : numberOfRepetitions.keySet()) {
-            if (numberOfRepetitions.containsKey(setKey) && numberOfRepetitions.get(setKey) == 1) {
+    /*
+        because of the coding features and the first character /ufeff it was necessary to go through the whole map
+         and cut the first character in the word if the remaining word coincides with the existing key is added 1
+     */
+    private void addDuplicateWordsInMap(HashMap<String, Integer> wordsMapping, HashMap<String, Integer> duplicatesMap, List<String> duplicateWordsInMap) {
+        for (String setKey : wordsMapping.keySet()) {
+            if (wordsMapping.containsKey(setKey) && wordsMapping.get(setKey) == 1) {
                 {
                     String substring = setKey.substring(1);
                     duplicateWordsInMap.add(substring);
@@ -115,14 +141,14 @@ public class WordsAnalyzer {
             }
         }
         for (String checkDuplicate : duplicateWordsInMap) {
-            if (numberOfRepetitions.containsKey(checkDuplicate)) {
-                Integer value = numberOfRepetitions.get(checkDuplicate);
-                numberOfRepetitions.put(checkDuplicate, value + 1);
+            if (wordsMapping.containsKey(checkDuplicate)) {
+                Integer value = wordsMapping.get(checkDuplicate);
+                wordsMapping.put(checkDuplicate, value + 1);
             }
         }
-        for (String duplicateMapKey : numberOfRepetitions.keySet()) {
-            if (numberOfRepetitions.get(duplicateMapKey) > 1) {
-                duplicatesMap.put(duplicateMapKey, numberOfRepetitions.get(duplicateMapKey));
+        for (String duplicateMapKey : wordsMapping.keySet()) {
+            if (wordsMapping.get(duplicateMapKey) > 1) {
+                duplicatesMap.put(duplicateMapKey, wordsMapping.get(duplicateMapKey));
             }
         }
     }

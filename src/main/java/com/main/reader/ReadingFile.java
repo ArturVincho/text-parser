@@ -13,7 +13,12 @@ public class ReadingFile {
 
     private String fileContent;
 
-
+    /**
+     * Reading a file from a user
+     *
+     * @param filename String
+     * @return fileContent
+     */
     public String readFile(String filename) {
         try (BufferedReader br = new BufferedReader(
                 new InputStreamReader(
