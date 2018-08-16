@@ -19,12 +19,12 @@ Example file in the project folder
 
 №№№ Description of files
 
-File name              		| Contents of the file
+File name              		  |  Description
 ----------------------------|----------------------
-BracketsAnalyzer.java  		| Analysis of the correctness of the separation of brackets
-WordsAnalyzer.java	   		| Analysis of repetitive words
-UploadController.java  		| Controller
+BracketsAnalyzer.java  		  | Analysis of the correctness of the separation of brackets
+WordsAnalyzer.java	   		  | Analysis of repetitive words
+UploadController.java  		  | Controller
 GlobalExceptionHandler.java | Exception handler
-ReadingFile.java	   		| reading text from a file
-replaceSymbol.java 	   		| Cleaning content from characters
-Application.java   	   		| launcher application
+ReadingFile.java	   		    | reading text from a file
+replaceSymbol.java 	   		  | Cleaning content from characters
+Application.java   	   		  | launcher application
