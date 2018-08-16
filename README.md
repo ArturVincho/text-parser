@@ -6,7 +6,9 @@
 In order to run the application you need:
 1. open the application folder
 2. open the console
-3. write the command mvn clean install and mvn spring-boot:run 
+3. Launch the application:
+  3.1 First launch  #### mvn clean install  || #### mvn spring-boot:start || #### mvn spring-boot:run
+  3.2 Second and other #### mvn spring-boot:run
 4. open the browser and go to localhost:8080
 
 ### To work with the application you need
