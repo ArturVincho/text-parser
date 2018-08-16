@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Text parser</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        background: linear-gradient(#FB9575, #F45A38 48%, #EA1502 100%, #F02F17) no-repeat;
+        background-size: contain;
+        min-height: 100vh;
+        overflow: hidden;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 20px;
+    }
+
+    form {
+        padding-left: 20px;
+    }
+
+    h1 {
+        text-align: center;
+        padding-bottom: 10px;
+    }
+
+    hr {
+        margin-bottom: 20px;
+    }
+
+    .indexTemplate {
+        width: 500px;
+        height: 200px;
+        position: relative;
+        padding: 10px;
+        margin-top: 200px;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: white;
+        border-radius: 15px;
+    }
+
+    .button {
+        position: relative;
+        display: inline-block;
+        height: 2.5em;
+        line-height: 2.5em;
+        vertical-align: middle;
+        text-align: center;
+        text-decoration: none;
+        text-shadow: 0 -1px 1px #777;
+        color: #fff;
+        outline: none;
+        border: 2px solid #F64C2B;
+        border-radius: 5px;
+        box-shadow: 0 0 0 60px rgba(0, 0, 0, 0) inset, .1em .1em .2em #800;
+        background: linear-gradient(#FB9575, #F45A38 48%, #EA1502 52%, #F02F17);
+    }
+
+    .button:active {
+        top: .1em;
+        left: .1em;
+        box-shadow: 0 0 0 60px rgba(0, 0, 0, .05) inset;
+    }
+
+    #text {
+        width: 12em;
+    }
+
+    #filePath {
+        width: 16em;
+    }
+
+</style>
+<div class="indexTemplate">
+
+    <h1>Анализатор текста</h1>
+    <hr/>
+
+    <form method="POST" name="form" action="/upload" enctype="multipart/form-data">
+        <input type="file" name="file" id="filePath" class="button"/><br/><br/>
+        <input type="submit" value="Анализировать текст" class="button" id="text" onclick="text()"/>
+        <input type="submit" value="Проверить корректность растоновки скобок" class="button" onclick="analyze()"/>
+    </form>
+</div>
+<script>
+    function text() {
+        document.form.action = "/upload";
+    }
+
+    function analyze() {
+        document.form.action = "/analyze";
+    }
+</script>
+</body>
+</html>
