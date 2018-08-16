@@ -6,7 +6,7 @@
 In order to run the application you need:
 1. open the application folder
 2. open the console
-3. write the command mvn spring-boot: start 
+3. write the command mvn clean install and mvn spring-boot:run 
 4. open the browser and go to localhost:8080
 
 ### To work with the application you need
@@ -17,7 +17,7 @@ In order to run the application you need:
 For correct work with Russian text, it is necessary to transfer a file with the encoding of UTF-8
 Example file in the project folder
 
-№№№ Description of files
+ Description of files
 
 File name              		  |  Description
 ----------------------------|----------------------
