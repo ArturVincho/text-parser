@@ -1,4 +1,4 @@
-# text-parser
+# Text-parser
 
 ## An application for searching for the same words and analyzing the correctness of the alignment of brackets
 
